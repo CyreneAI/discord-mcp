@@ -1,4 +1,4 @@
-name: Build & Publish Docker Image
+name: Build & Publish discord-mcp
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
     tags: ['v*']
 
 permissions:
-  contents: read
-  packages: write
+  contents: read         # for checkout
+  packages: write        # allows pushing to GHCR
 
 jobs:
   build-and-push:
@@ -17,27 +17,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Use your PAT to pull the base-mcp image
-      - name: Log in to GHCR for pulls
+      - name: Log in to GHCR (pull & push)
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_READ }}
+          password: ${{ secrets.GHCR_CR_PAT }}
 
-      # Log in with the GITHUB_TOKEN (or reuse the PAT) for pushing
-      - name: Log in to GHCR for pushes
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
+      - name: Build & push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: Dockerfile             # adjust if yours lives elsewhere
+          context: .                  # adjust if your Dockerfile is elsewhere
+          file: Dockerfile           # path to your Dockerfile
           push: true
           tags: |
             ghcr.io/cyreneai/discord-mcp:latest
