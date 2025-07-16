@@ -1,6 +1,6 @@
-# mcp-servers/discord-mcp/Dockerfile
-FROM base-mcp:latest
+FROM ghcr.io/cyreneai/base-mcp:latest
 
+# Set working directory
 WORKDIR /app
 
 # Copy MCP-specific requirements.txt and install them
