@@ -27,8 +27,8 @@ jobs:
       - name: Build & push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .                  # adjust if your Dockerfile is elsewhere
-          file: Dockerfile           # path to your Dockerfile
+          context: .                 
+          file: Dockerfile          
           push: true
           tags: |
             ghcr.io/cyreneai/discord-mcp:latest

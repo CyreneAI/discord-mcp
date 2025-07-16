@@ -3,12 +3,12 @@ FROM ghcr.io/cyreneai/base-mcp:latest
 # Set working directory
 WORKDIR /app
 
-# Copy MCP-specific requirements.txt and install them
-COPY mcp-servers/discord-mcp/requirements.txt /app/mcp-servers/discord-mcp/requirements.txt
-RUN pip install --no-cache-dir -r mcp-servers/discord-mcp/requirements.txt
+# Copy & install dependencies
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the MCP server file
-COPY mcp-servers/discord-mcp/server.py /app/mcp-servers/discord-mcp/server.py
+# Copy application code
+COPY server.py .
 
 # Set environment variables for Kubernetes deployment
 ENV LOCAL_MODE="false"
